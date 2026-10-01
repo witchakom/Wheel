@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+body{margin:0;background:#f5f3ff;font-family:'Prompt',system-ui,-apple-system,'Segoe UI',sans-serif;color:#1e1b4b}
+@keyframes fall{0%{transform:translateY(-20px) rotate(0);opacity:1}100%{transform:translateY(105vh) rotate(720deg);opacity:.9}}
+@keyframes pop{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
+.pop{animation:pop .35s cubic-bezier(.2,1.4,.4,1)}
