@@ -2,11 +2,12 @@ import { useState } from 'react'
 import { SpinPanel } from '../components/SpinPanel'
 import { PalettePicker } from '../components/PalettePicker'
 import { col, uid } from '../utils'
+import { TPL, mkWheel } from '../data/templates'
 
 const iconBtn = 'w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 text-sm disabled:opacity-30'
 const input = 'rounded-xl border border-slate-200 px-3 py-2 outline-none focus:ring-2 focus:ring-indigo-400'
 
-export function Create({ t, cur, setCur, setSaved, set, onWin }) {
+export function Create({ t, lang, cur, setCur, setSaved, set, setSet, onWin }) {
   const [newItem, setNewItem] = useState('')
   const [ok, setOk] = useState(false)
   const setItems = (items) => setCur({ ...cur, items })
@@ -36,6 +37,12 @@ export function Create({ t, cur, setCur, setSaved, set, onWin }) {
   return (
     <div className="grid lg:grid-cols-2 gap-8 items-start">
       <div className="bg-white rounded-3xl p-5 shadow-sm border border-indigo-100 space-y-4">
+        <button
+          onClick={() => { setCur({ ...mkWheel(TPL.find((tp) => tp.id === 'custom'), lang, set.pal), id: uid() }); setOk(false) }}
+          className="w-full py-2 rounded-xl bg-slate-100 text-sm font-medium hover:bg-slate-200"
+        >
+          + {t.newc}
+        </button>
         <label className="block text-sm font-medium">
           {t.name}
           <input value={cur.name} onChange={(e) => setCur({ ...cur, name: e.target.value })} className={`mt-1 w-full ${input}`} />
@@ -45,6 +52,11 @@ export function Create({ t, cur, setCur, setSaved, set, onWin }) {
           <div className="text-sm font-medium mb-1">{t.palette}</div>
           <PalettePicker value={cur.pal} onChange={(pal) => setCur({ ...cur, pal })} />
         </div>
+
+        <label className="flex items-center justify-between gap-3 rounded-xl border border-indigo-100 px-3 py-2.5 text-sm font-medium cursor-pointer">
+          <span>{t.rm}</span>
+          <input type="checkbox" checked={Boolean(set.rm)} onChange={(e) => setSet({ ...set, rm: e.target.checked })} className="w-5 h-5 accent-indigo-600 shrink-0" />
+        </label>
 
         <div>
           <div className="text-sm font-medium mb-1">{t.items} ({cur.items.length})</div>
@@ -66,7 +78,7 @@ export function Create({ t, cur, setCur, setSaved, set, onWin }) {
         </div>
 
         <button onClick={save} className="w-full py-2.5 rounded-xl bg-emerald-500 text-white font-bold hover:bg-emerald-600">
-          {ok ? '✓ ' + t.saved : '💾 ' + t.save}
+          {ok ? t.saved : t.save}
         </button>
       </div>
       <SpinPanel wheel={cur} t={t} set={set} onWin={onWin} />

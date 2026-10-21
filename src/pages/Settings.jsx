@@ -4,7 +4,7 @@ import { cls } from '../utils'
 const card = 'bg-white rounded-2xl p-4 shadow-sm border border-indigo-100'
 const danger = 'px-4 py-2 rounded-xl bg-rose-50 text-rose-600 font-medium'
 
-export function Settings({ t, set, setSet, clearH, clearW, lang, setLang }) {
+export function Settings({ t, set, setSet, setPalette, clearH, clearW, lang, setLang }) {
   return (
     <div className="max-w-xl mx-auto space-y-4">
       <div className={card}>
@@ -17,7 +17,7 @@ export function Settings({ t, set, setSet, clearH, clearW, lang, setLang }) {
       </div>
       <div className={card}>
         <div className="font-medium mb-2">{t.def}</div>
-        <PalettePicker value={set.pal} onChange={(pal) => setSet({ ...set, pal })} />
+        <PalettePicker value={set.pal} onChange={setPalette} />
       </div>
       <div className={card}>
         <label className="font-medium block">

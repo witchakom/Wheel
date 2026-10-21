@@ -3,30 +3,28 @@ import { SpinPanel } from '../components/SpinPanel'
 
 export function Home({ t, lang, cur, pick, set, onWin }) {
   return (
-    <div className="grid lg:grid-cols-[1fr_340px] gap-8 items-start">
-      <div>
-        <div className="text-center mb-6">
-          <h1 className="text-3xl sm:text-4xl font-bold bg-linear-to-r from-fuchsia-600 to-indigo-600 bg-clip-text text-transparent">{t.title}</h1>
-          <p className="text-slate-500 mt-1">{t.sub}</p>
-        </div>
-        <div className="text-center font-medium mb-4">{cur.emoji} {cur.name}</div>
+    <div className="home-shell">
+      <section className="home-hero">
+        <div className="scene-cloud scene-cloud-a" aria-hidden="true" />
+        <div className="scene-cloud scene-cloud-b" aria-hidden="true" />
+        <div className="scene-island" aria-hidden="true"><span /><i /><b /></div>
+        <div className="current-wheel"><span className="wheel-indicator" aria-hidden="true" />{cur.name}</div>
         <SpinPanel wheel={cur} t={t} set={set} onWin={onWin} />
-      </div>
-      <div>
-        <h2 className="font-bold mb-3">{t.tpl}</h2>
-        <div className="grid grid-cols-2 gap-2">
-          {TPL.map((tp) => (
-            <button
-              key={tp.id}
-              onClick={() => pick(mkWheel(tp, lang, set.pal))}
-              className="text-left p-3 rounded-2xl bg-white shadow-sm hover:shadow-md hover:-translate-y-0.5 transition border border-indigo-100"
-            >
-              <div className="text-2xl">{tp.e}</div>
-              <div className="text-sm font-medium leading-tight mt-1">{tp.n[lang]}</div>
+      </section>
+
+      <section className="template-section">
+        <div className="section-heading">
+          <div><h2>{t.tpl}</h2><p>{lang === 'th' ? 'เลือกวงล้อที่เหมาะกับช่วงเวลาของคุณ' : 'Choose a wheel for the moment'}</p></div>
+        </div>
+        <div className="template-grid">
+          {TPL.map((tp, i) => (
+            <button key={tp.id} onClick={() => pick(mkWheel(tp, lang, set.pal))} className={`template-card accent-${i % 6}`}>
+              <span className="template-name">{tp.n[lang]}</span>
+              <span className="template-meta">{tp.i[lang].length} {t.items_n}</span>
             </button>
           ))}
         </div>
-      </div>
+      </section>
     </div>
   )
 }
